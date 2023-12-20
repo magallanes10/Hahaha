@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bot Dashboard</title>
+<style>
+body {
+  font-family: "Helvetica Neue", Arial, sans-serif;  
+  background-color: #D3F2C2;
+}
+
+.navbar {
+  background-color: #34A853;
+  color: white;
+  padding: 12px 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.navbar h1 {
+  margin: 0;
+  font-size: 28px;
+}
+
+.dashboard {
+  background-color: white;
+  margin: 2em auto;
+  padding: 2em;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  width: 90%;
+  max-width: 600px;
+}
+
+.dashboard h2 {
+  color: #333;
+  margin-bottom: 15px;
+}
+
+.dashboard .stat {
+  padding: 20px;
+  background-color: #edf4ed;
+  margin-bottom: 20px;
+  border-radius: 10px;
+}
+
+.dashboard .stat:last-child {
+  margin-bottom: 0;
+}
+
+button {
+  background-color: #34A853;
+  color: white;
+  border: none;
+  padding: 12px 25px;
+  margin: 10px 0;
+  cursor: pointer;
+  font-size: 16px;
+  border-radius: 20px;
+}
+
+button:hover {
+  background-color: #2C7A4B;
+}
+</style>
+<script
+src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.0/socket.io.min.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const socket = io();
+
+    fetch('/dashboard')
+      .then(response => response.json())
+      .then(data => {
+        document.getElementById('bot-name').textContent = data.botName;
+        document.getElementById('fca').textContent = data.botFmd;
+
+document.getElementById('ping').textContent = data.botPing;       
+  document.getElementById('repl').textContent = data.botRepl;
+
+document.getElementById('lang').textContent = data.botLang;
+ document.getElementById('thread').textContent = data.botThreads;
+
+document.getElementById('bot-uid').textContent = data.botUid;
+        document.getElementById('owner-name').textContent = data.ownerName;
+        document.getElementById('bot-prefix').textContent = data.prefix;
+        document.getElementById('commands-count').textContent = data.commandsCount;
+        document.getElementById('events-count').textContent = data.eventsCount;
+        document.getElementById('bot-uptime').textContent = new Date(data.uptime).toISOString().substr(11, 8);
+      })
+      .catch(error => console.error('Error fetching dashboard data:', error));
+
+    socket.on('real-time-data', data => {
+document.getElementById('bot-uptime').textContent = new Date(data.uptime).toISOString().substr(11, 8);
+  });
+  });
+</script>
+</head>
+<body>
+<div class="navbar">
+  <h1>Bot Dashboard</h1>
+</div>
+<div class="dashboard">
+  <div class="stat">
+    <h2>Bot Information</h2>
+    Name: <span id="bot-name">Loading...</span><br>
+    UID: <span id="bot-uid">Loading...</span><br>
+    Owner: <span id="owner-name">Loading...</span><br>
+    Prefix: <span id="bot-prefix">Loading...</span><br>
+    FCA Module: <span id="fca">Loading....</span>
+  </div>
+  <div class="stat">
+    <h2>Statistics</h2>
+    Commands Count: <span id="commands-count">Loading...</span><br>
+    Events Count: <span id="events-count">Loading...</span><br> Language: <span id="lang">Loading....</span><br> Threads: <span id="thread">Loading....</span>
+  </div>
+  <div class="stat">
+    <h2>Status</h2>
+    Uptime: <span id="bot-uptime">Loading...</span> <br>
+    REPL BOT: <span  id="repl">Loading...</span> <br> BotStart Milliseconds: <span id="ping">Loading...</span>
+  </div>
+  <button onclick="location.href='/dashboard/refresh'">Refresh</button>
+</div>
+</body>
+</html>

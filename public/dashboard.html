@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bot Commands Dashboard</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+    }
+    .commands-container {
+      width: 80%;
+      margin: auto;
+      margin-top: 50px;
+      padding: 20px;
+      background-color: #fff;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    ul {
+      list-style-type: none;
+      padding: 0;
+    }
+    li {
+      padding: 10px;
+      border-bottom: 1px solid #ddd;
+    }
+    li:last-child {
+      border-bottom: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="commands-container">
+    <h1>Bot Commands</h1>
+    <ul id="commandsList">
+      <!-- Commands will be inserted here -->
+    </ul>
+  </div>
+
+  <script>
+    // Assuming you have an API endpoint or similar to get the commands
+    fetch('/api/commands')
+      .then(response => response.json())
+      .then(commands => {
+        const commandsList = document.getElementById('commandsList');
+        commands.forEach(command => {
+          let li = document.createElement('li');
+          li.textContent = command.name + ' - ' + command.description;
+          commandsList.appendChild(li);
+        });
+      })
+      .catch(error => {
+        console.error('Error fetching commands:', error);
+      });
+  </script>
+</body>
+</html>

@@ -8,7 +8,7 @@ const axios = require("axios");
 const app = express();
 const PingMonitor = require('ping-monitor');
 const pingOptions = {
-  website: `https://${process.env.REPL_SLUG}.${process.env.REPL_OWNER}.repl.co`,
+  website: `https://symmetrical-space-disco-7qqr95rrxqrfr6gv.github.dev/pf-signin?id=puzzled-hill-0jqv5pn&cluster=asse&name=symmetrical-space-disco-7qqr95rrxqrfr6gv&port=8080&pb=https%3A%2F%2Fsymmetrical-space-disco-7qqr95rrxqrfr6gv-8080.app.github.dev%2Fauth%2Fpostback%2Ftunnel%3Ftunnel%3D1&cid=1416fadb-5ede-497b-8852-81a221ce80f4`,
   title: 'EDUCATIONAL BOT 4.0V',
   interval: 1 // minutes
 };
@@ -58,7 +58,7 @@ function ping(targetUrl) {
 
 // Example usage:
 setInterval(() => {
-  ping(`https://${process.env.REPL_SLUG}.${process.env.REPL_OWNER}.repl.co`);
+  ping(`https://symmetrical-space-disco-7qqr95rrxqrfr6gv.github.dev/pf-signin?id=puzzled-hill-0jqv5pn&cluster=asse&name=symmetrical-space-disco-7qqr95rrxqrfr6gv&port=8080&pb=https%3A%2F%2Fsymmetrical-space-disco-7qqr95rrxqrfr6gv-8080.app.github.dev%2Fauth%2Fpostback%2Ftunnel%3Ftunnel%3D1&cid=1416fadb-5ede-497b-8852-81a221ce80f4`);
 }, 30000); 
 const config = require('./config.json'); 
 
@@ -149,7 +149,7 @@ io.on('connection', (socket) => {
 });
 
 function startBot() {
-  const child = spawn("node", ["--trace-warnings", "--async-stack-traces", "umaru.js"], {
+  const child = spawn("node", ["--trace-warnings", "--async-stack-traces", "jonell.js"], {
       cwd: __dirname,
       stdio: "inherit",
       shell: true
@@ -169,7 +169,7 @@ function startBot() {
 
 startBot(); 
 
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 8080;
 httpServer.listen(port, () => {
   console.log(`Server with real-time updates running on http://localhost:${port}`);
 });

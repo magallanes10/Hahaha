@@ -1,32 +1,35 @@
 const axios = require('axios');
 
 module.exports.config = {
-  name: 'ai',
-  version: '1.0.0',
+  name: "ai",
+  version: "1.0.0",
   hasPermission: 0,
-  credits: 'Jonell Magallanes',
-  description: 'Ask a question to AI',
-  commandCategory: 'ai',
-  usages: ['ai <your question>'],
-  cooldowns: 20,
+  credits: "Jonell Magallanes", 
+  description: "Get AI assistance",
   usePrefix: false,
+  commandCategory: "ai",
+  usages: "ai [your question]",
+  cooldowns: 10,
 };
 
-module.exports.run = async ({ api, event, args }) => {
-  if (args.length < 1) {
-    return api.sendMessage('Please provide a question\n\nExample:\nAi what is solar system?', event.threadID, event.messageID);
-  }
-api.sendMessage("🔍 | AI is Searching and Typing your answer. Please Wait.....", event.threadID, event.messageID);
-  const content = encodeURIComponent(args.join(' '));
-  const apiUrl = `https://hazeyy-gpt4-api.kyrinwu.repl.co/api/gpt4/v-3beta?content=${content}`;
+module.exports.run = async function ({ api, event, args }) {
+  const query = encodeURIComponent(args.join(" "));
+  const apiUrl = `https://ai.easy0.xyz/v1/completion?model=gpt3.5&query=${query}`;
+
+  // Notify user that AI is searching for an answer
+  api.sendMessage("🔍 | AI is searching for your answer. Please wait...", event.threadID, event.messageID);
 
   try {
     const response = await axios.get(apiUrl);
-    const reply = response.data.reply;
+    if (response.status === 200 && response.data.model === "gpt3.5") {
+      const aiResponse = response.data.response;
 
-    api.sendMessage(reply, event.threadID, event.messageID);
+      // Sending AI response as a message
+      api.sendMessage(aiResponse, event.threadID, event.messageID);
+    } else {
+      api.sendMessage("Sorry, something went wrong with the AI service.", event.threadID);
+    }
   } catch (error) {
-    console.error('Error fetching AI response:', error);
-    api.sendMessage('An error occurred while processing your request.', event.threadID, event.messageID);
+    api.sendMessage("Sorry, an error occurred while processing your request.", event.threadID);
   }
 };

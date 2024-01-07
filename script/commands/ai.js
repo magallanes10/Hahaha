@@ -6,6 +6,7 @@ module.exports.config = {
 	hasPermssion: 0,
 	credits: "Jonell Magallanes",
 	description: "EDUCATIONAL",
+	usePrefix: false,
 	commandCategory: "other",
 	usages: "[question]",
 	cooldowns: 10

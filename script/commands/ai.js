@@ -15,7 +15,8 @@ module.exports.config = {
 module.exports.run = async function({ api, event, args }) {
 	const query = encodeURIComponent(args.join(" "));
 	const apiUrl = `https://cyni-api-collection.onrender.com/api/gpt?question=${query}`;
-
+if (!query) return api.sendMessage("Please Provide Your Question\n\nExample: ai what is solar system?", event.threadID, event.messageID);
+	
 	try {
 		api.sendMessage("🔍 | AI is searching for your answer. Please wait...", event.threadID, event.messageID);
 
